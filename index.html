@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Insurance Portal</title>
+  <link rel="stylesheet" href="style.css" />
+  
+
+</head>
+<body>
+<!-- Authentication Check & Navbar -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  set,
+  push
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAym5oL_pla7186Vp-VVzZlRFjlhhzStIs",
+  authDomain: "insurance-policy-b0f63.firebaseapp.com",
+  databaseURL: "https://insurance-policy-b0f63-default-rtdb.firebaseio.com", // ✅ ADD THIS LINE
+  projectId: "insurance-policy-b0f63",
+  storageBucket: "insurance-policy-b0f63.appspot.com",
+  messagingSenderId: "508879055605",
+  appId: "1:508879055605:web:ddf224e92ebc049333b3bc",
+  measurementId: "G-ZT854ZEHRC"
+};
+
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
+    window.db = db;
+    window.pushData = (data) => {
+      return push(ref(db, "formResponses"), data);
+    };
+
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = "login.html";
+    }
+  });
+
+  window.logout = function () {
+    signOut(auth).then(() => {
+      alert("Logged out successfully.");
+      window.location.href = "login.html";
+    });
+  };
+</script>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="nav-left">
+    <img src="images/Golden Trident with Red Ribbon.png" alt="Logo" class="logo" />
+    <span class="company-name">SARVAASTRA</span>
+  </div>
+  <div class="nav-links">
+    <a href="#hero">Home</a>
+    <a href="#services">Services</a>
+    <a href="#investment">Investment Calculator</a>
+    <a href="#life-insurance">Life Insurance</a>
+    <a href="#contact" style="color: white; text-decoration: none;">Contact</a>
+    <a href="#other-services">Other Services</a>
+  </div>
+  <div class="nav-right">
+    <button onclick="logout()">Logout</button>
+  </div>
+</nav>
+
+
+
+ <div class="overlay">
+  <!-- Hero Section -->
+  <header>
+    <h1>What is Insurance?</h1>
+    <p>Insurance is a financial safety net that helps you recover from unexpected events.<br>
+       It’s important because it protects your health, property, and loved ones.</p>
+    <div style="margin-top: 20px;">
+      <strong>✅ General Insurance</strong> | ❤️ <strong>Life Insurance | housing loans </strong>
+    </div>
+  </header>
+
+  <!-- Our Services -->
+<section class="services"; id="services">
+
+  <div class="service-box">
+    <div class="service-content">
+      <div class="service-image">
+        <img src="images/health.png" alt="Health Insurance">
+      </div>
+      <div class="service-text">
+        <h3>🏥 Health Insurance</h3>
+        <p>Cover medical bills, treatments & hospital stays.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="service-box reverse">
+    <div class="service-content">
+      <div class="service-text">
+        <h3>🎓 Child & Education Plans</h3>
+        <p>Save smartly for your child’s bright future.</p>
+      </div>
+      <div class="service-image">
+        <img src="images/education.png" alt="Child & Education Plans">
+      </div>
+    </div>
+  </div>
+  <div class="service-box">
+    <div class="service-content">
+      <div class="service-image">
+        <img src="images/life.png" alt="Life Insurance">
+      </div>
+      <div class="service-text">
+        <h3>🏠 Life Insurance</h3>
+        <p>Financial support for your family in your absence.</p>
+      </div>
+    </div>
+  </div>
+    <div class="service-box reverse">
+    <div class="service-content">
+      <div class="service-text">
+        <h3>🚗 Vehicle Insurance</h3>
+        <p>Secure your car or bike from accidents or theft.</p>
+      </div>
+      <div class="service-image">
+        <img src="images/vehicle.png" alt="Vehicle Insurance">
+      </div>
+    </div>
+  </div>
+
+
+
+</section>
+
+
+  <!-- Investment Calculator -->
+<section>
+  <h2 class="section-title">LIC Investment Calculator</h2>
+  <h3 style="color: antiquewhite;">Get the best LIC plan suggestion based on your age, amount, and preferences.</h3>
+
+  <form onsubmit="event.preventDefault(); calculate();">
+    <input type="text" id="name" placeholder="Name" required><br>
+    <input type="number" id="number" placeholder="Phone Number" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="number" id="age" placeholder="Age" required><br>
+    <input type="number" id="amount" placeholder="Monthly Amount" required><br>
+    <input type="number" id="years" placeholder="Years" required><br>
+    <input type="number" id="rate" placeholder="Interest Rate %" required><br>
+    <button type="submit">Calculate</button>
+  </form>
+
+ <div id="result"; style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center; background-color: #400808;"></div>
+
+
+<script>
+  function calculate() {
+    const age = parseInt(document.getElementById("age").value);
+    const monthly = parseFloat(document.getElementById("amount").value);
+    const years = parseInt(document.getElementById("years").value);
+    const rate = parseFloat(document.getElementById("rate").value) / 100;
+    const name = document.getElementById("name").value;
+    const number = document.getElementById("number").value;
+    const gmail = document.getElementById("email").value;
+
+    const result = document.getElementById("result");
+
+    if (
+      isNaN(age) || isNaN(monthly) || isNaN(years) || isNaN(rate) ||
+      !name || !number || !gmail
+    ) {
+      result.innerHTML = "❗ All fields are required and must be valid.";
+      return;
+    }
+
+    const months = years * 12;
+    const monthlyRate = rate / 12;
+    const maturity = monthly * ((Math.pow(1 + monthlyRate, months) - 1) * (1 + monthlyRate) / monthlyRate);
+    const invested = monthly * months;
+    const interest = maturity - invested;
+
+    let scheme = "";
+    let plans = [];
+
+    if (age < 35 && years >= 15) {
+      scheme = "ULIP (Market-Linked Investment)";
+      plans = ["LIC's SIIP", "LIC's New Endowment Plus"];
+    } else if (age <= 45 && years >= 15) {
+      scheme = "Endowment Plan (Bonus + Insurance)";
+      plans = ["New Endowment - 714", "Jeevan Anand - 715", "Single Premium Endowment - 717"];
+    } else if (years < 15 && age < 45) {
+      scheme = "Money Back Plan (Payout every few years)";
+      plans = ["20Y Money Back - 820", "Children Money Back - 832", "Jeevan Tarun - 834"];
+    } else if (age >= 50 && years >= 10) {
+      scheme = "Pension Plan (Monthly Income)";
+      plans = ["Jeevan Akshay", "Jeevan Shanti", "New Jeevan Nidhi"];
+    } else {
+      scheme = "Term Plan (Pure Protection)";
+      plans = ["Tech Term Plan", "Anmol Jeevan", "Amulya Jeevan"];
+    }
+
+    result.innerHTML = `
+      <strong>✅ Suggested Plan Type:</strong> ${scheme}<br><br>
+      <strong>📋 Matching LIC Plans:</strong><br>
+      <ul>${plans.map(p => `<li>${p}</li>`).join("")}</ul><br>
+      <strong>💰 Total Invested:</strong> ₹${invested.toLocaleString()}<br>
+      <strong>📈 Estimated Interest:</strong> ₹${interest.toLocaleString()}<br>
+      <strong>🔓 Maturity Amount:</strong> ₹${maturity.toLocaleString()}
+    `;
+
+    const data = {
+      name, number, gmail, age,
+      amount: monthly, years, rate: rate * 100,
+      scheme, plans, invested, interest, maturity
+    };
+
+    // ✅ Use the correct Apps Script Web App URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbweNzL4tW4GUcLENar2oFOzOGYqgqEOaa8l71Y0YFsGyE3UMgV2rL0egfT0G0PtgVIDMQ/exec";
+
+    console.log("📤 Sending data:", data);
+
+    fetch(scriptURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.text())
+    .then(msg => {
+      console.log("✅ Data sent:", msg);
+      alert("Form submitted successfully!");
+    })
+    .catch(err => {
+      console.error("❌ Error submitting form:", err);
+      alert("Failed to submit form.");
+    });
+  }
+</script>
+
+</section>
+
+<section id="life-insurance">
+  <h2 class="section-title">💼 Life Insurance Plans</h2>
+  <p class="section-subtitle">Secure your family's future with plans tailored for every stage of life.</p>
+
+  <!-- Endowment Plans -->
+  <div class="insurance-block">
+    <img src="/images/endowment.png" alt="Endowment Plan Image" class="plan-image" />
+    <div class="plan-box">
+      <h3>🟤 Endowment Plans</h3>
+      <ul>
+        <li>New Endowment - 714</li>
+        <li>New Jeevan Anand - 715</li>
+        <li>Single Premium Endowment - 717</li>
+        <li>Jeevan Lakshya - 733</li>
+        <li>Jeevan Labh - 736</li>
+        <li>Bima Jyoti - 760</li>
+        <li>Jeevan Azad - 768</li>
+        <li>Nav Jeevan Shree (Single) - 911</li>
+        <li>Nav Jeevan Shree (Limited) - 912</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MoneyBack Plans -->
+  <div class="insurance-block alternate">
+    <div class="plan-box">
+      <h3>🟣 MoneyBack Plans</h3>
+      <ul>
+        <li>MoneyBack (20 Year) - 720</li>
+        <li>MoneyBack (25 Year) - 721</li>
+        <li>Bima Shree - 748</li>
+        <li>Bima Ratna - 764</li>
+      </ul>
+    </div>
+    <img src="/images/money back.png" alt="Moneyback Plan Image" class="plan-image" />
+  </div>
+
+  <!-- Term Plans -->
+  <div class="insurance-block">
+    <img src="/images/term.png" alt="Term Plan Image" class="plan-image" />
+    <div class="plan-box">
+      <h3>🔵 Term Plans</h3>
+      <ul>
+        <li>Saral Jeevan Bima - 859</li>
+        <li>Yuva Term - 875</li>
+        <li>Yuva Credit Life - 877</li>
+        <li>New Jeevan Amar - 955</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Pension Plans -->
+  <div class="insurance-block alternate">
+    <div class="plan-box">
+      <h3>🟢 Pension Plans</h3>
+      <ul>
+        <li>New Jeevan Shanti - 758</li>
+        <li>Saral Pension - 862</li>
+        <li>Jeevan Akshay-VII - 857</li>
+        <li>Smart Pension - 879</li>
+      </ul>
+    </div>
+    <img src="/images/pension.png" alt="Pension Plan Image" class="plan-image" />
+  </div>
+
+  <!-- ULIP Plans -->
+  <div class="insurance-block"; id="life-insurance";>
+    <img src="/images/udip.png" alt="ULIP Plan Image" class="plan-image" />
+    <div class="plan-box">
+      <h3>🔶 ULIP Plans</h3>
+      <ul>
+        <li>Endowment Plus - 735</li>
+        <li>Nivesh Plus - 749</li>
+        <li>SIIP - 752</li>
+        <li>New Pension Plus - 867</li>
+        <li>Index Plus - 873</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!--contact -->
+<section id="contact" style="background-color: black; padding: 20px; border-radius: 8px; max-width: 400px; color: white; margin: 40px auto;">
+  <h2 class="section-title" style="color: #FFD700; text-align: center;">Contact Us</h2>
+  <p><strong>Phone:</strong> <a href="tel:+918105524482" style="color: #FFD700; text-decoration: none;">+91 81055 24482</a></p>
+  <p><strong>Email:</strong> <a href="mailto:ashmita.bdm@sarvaastra.in" style="color: #FFD700; text-decoration: none;">ashmita.bdm@sarvaastra.in</a></p>
+  <p><strong>Location:</strong> <a href="https://www.google.com/maps/search/?api=1&query=Vijaynagar" target="_blank" style="color: #FFD700; text-decoration: none;">Vijaynagar</a></p>
+</section>
+
+
+<!-- Other Services Section -->
+<div id="other-services" class="insurance-header";>
+  <section style="padding: 40px; background-color: #00000000;">
+    <h2 style="border: 2px solid hsl(61, 59%, 46%); padding: 20px; text-align: center; background-color: #000000; color: #dbdbe0;">
+  The reason why we are your one stop destination
+   </h2>
+    <h3 style="border: 2px solid hsl(54, 78%, 52%); padding: 20px; text-align: center; background-color: #000000; color: #d9d9e6;">
+      Other services we provide
+    </h3>
+
+    <div style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: auto; color: #ffffff
+    ">
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center; background-color: #000000;">Training & Learning</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center; background-color: #000000;">Corporate Gifting</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center; background-color: #000000;">Event Management</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center;background-color: #000000;">Daily Consumables</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center;background-color: #000000;">Audit & Taxation</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center;background-color: #000000;">Legal Services</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center;background-color: #000000;">Websites & Digital Services</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center;background-color: #000000;">Recruitment (IT & Non-IT)</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center;background-color: #000000;">Investments</div>
+      <div style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center;background-color: #000000;">Many other services coming soon!</div>
+    </div>
+  </section>
+</div>
+<!-- Place this just before </body> -->
+
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> SARVAASTRA. All rights reserved.</p>
+  </footer>
+
+
+
+</body>
+
+</html>

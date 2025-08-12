@@ -1,0 +1,421 @@
+:root {
+  --primary: #d4af37; /* Gold */
+  --secondary: #b22222; /* Deep red */
+  --light: rgba(0, 0, 0, 0.6); /* Translucent dark for cards */
+  --dark: #ffffff; /* White text */
+  --radius: 12px;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('/images/Golden Trident with Red Ribbon.png') top center;
+  background-size: cover;
+  color: rgb(0, 0, 0);
+  position: relative;
+  min-height: 100vh;
+}
+
+.hero {
+  position: -10;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 0;
+}
+
+
+.bg-video {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.hero .overlay {
+ position: absolute;
+  top: 0; 
+  left: 0;
+  width: 96%;
+  height: 92.5%;
+  background-color: rgba(0, 0, 0, 0.531); /* semi-transparent black */
+  padding: 2em;
+  color: white;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-align: center;
+}
+
+
+.hero .logo {
+  width: 100px;
+  margin-bottom: 1em;
+}
+
+.hero h1 {
+  font-size: 3rem;
+}
+
+.tagline {
+  font-size: 1.2rem;
+  margin: 0.5em 0;
+}
+
+.btn {
+  background-color: #d6b358;
+  color: #000;
+  padding: 1em 2em;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-top: 1em;
+  display: inline-block;
+}
+
+/* Overlay on top of background */
+body .overlay {
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;
+  height: 300%;
+  background-color: rgba(0, 0, 0, 0.6); /* semi-transparent black */
+  padding: 0em;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Or center if you want centered content */
+  align-items: center;
+  text-align: center;
+}
+
+/* Header */
+header {
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--primary);
+  text-align: center;
+  padding: 60px 20px;
+}
+
+header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+header p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #eee;
+}
+
+/* Section titles */
+.section-title {
+  font-size: 30px;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+/* Box container layout */
+.box-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* Individual boxes */
+.box {
+  background: var(--light);
+  padding: 25px;
+  width: 300px;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3); /* Gold shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+}
+
+.box h3 {
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+/* Form styling */
+input, textarea {
+  width: 90%;
+  max-width: 400px;
+  padding: 12px 15px;
+  margin: 10px auto;
+  border: 1px solid #999;
+  border-radius: var(--radius);
+  font-size: 16px;
+  display: block;
+  box-sizing: border-box;
+  background-color: #222;
+  color: #fff;
+}
+
+button {
+  background-color: var(--primary);
+  color: black;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #b8860b;
+}
+
+.result {
+  margin-top: 15px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+/* Services section */
+.services {
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+/* Service pod styling */
+.service-box {
+  background: var(--light);
+  color: var(--dark);
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(212, 175, 55, 0.25);
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 1rem;
+  transition: transform 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.service-box:hover {
+  transform: translateY(-5px);
+}
+
+/* Inside the service card */
+.service-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.service-image img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  border: 2px solid var(--primary);
+}
+
+.service-text h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--primary);
+}
+
+.service-text p {
+  font-size: 0.95rem;
+  color: #f0f0f0;
+}
+input, button {
+  margin-top: 10px;
+  width: 90%;
+  max-width: 400px;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+}
+
+input {
+  background: #222;
+  color: white;
+  border: 1px solid #555;
+}
+
+button {
+  background-color: var(--primary);
+  color: black;
+  cursor: pointer;
+}
+
+/*insurance*/
+/* Container section */
+#life-insurance {
+  padding: 60px 10vw;
+  background-color: rgba(0, 0, 0, 0.6); /* dark overlay */
+  backdrop-filter: blur(6px);
+  color: white;
+}
+
+/* Section headings */
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 0.5em;
+  color: #fdd835;
+}
+
+.section-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2em;
+  color: #ccc;
+}
+
+/* Flex row for plan blocks */
+.insurance-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.insurance-block.alternate {
+  flex-direction: row-reverse;
+}
+
+/* Image styling */
+.plan-image {
+  flex: 1;
+  max-width: 48%;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  object-fit: cover;
+}
+
+/* Plan text box */
+.plan-box {
+  flex: 1;
+  max-width: 48%;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 4px solid #fdd835;
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+}
+
+.plan-box h3 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #ffeb3b;
+}
+
+.plan-box ul {
+  list-style: none;
+  padding-left: 0;
+  line-height: 1.8;
+}
+
+.plan-box ul li::before {
+  content: "✔️ ";
+  color: #81c784;
+}
+
+/* Responsive: Stack for small screens */
+@media (max-width: 768px) {
+  .insurance-block, .insurance-block.alternate {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .plan-image,
+  .plan-box {
+    max-width: 100%;
+  }
+
+  .plan-box {
+    border-left: none;
+    border-top: 4px solid #fdd835;
+  }
+}
+/*nav bar*/
+/* Navbar Styles */
+.navbar {
+    background: black;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 10px;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(255, 215, 0, 0.4);
+  }
+
+  .navbar .logo {
+    height: 40px;
+    border-radius: 50%;
+  }
+
+  .company-name {
+    font-size: 18px;
+    color: gold;
+    margin-left: 8px;
+    font-weight: bold;
+  }
+
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    color: gold;
+  }
+
+  .nav-right button {
+    background: gold;
+    color: black;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .nav-right button:hover {
+    background: #e6b800;
+  }
+.insurance-header {
+    background: rgba(0, 0, 0, 0.158); /* lighter transparency */
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    top: 80px; /* moves it down */
+}
+.site-footer{text-align:center;padding:20px;color:#bbb}
