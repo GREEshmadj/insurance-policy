@@ -419,3 +419,38 @@ button {
     top: 80px; /* moves it down */
 }
 .site-footer{text-align:center;padding:20px;color:#bbb}
+
+/* other section */
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Single column on phone */
+    gap: 15px;
+    margin: 20px auto;
+    max-width: 95%;
+  }
+
+  .services-grid div {
+    border: 2px solid hsla(50, 88%, 48%, 0.85);
+    padding: 15px;
+    text-align: center;
+    background-color: #000;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  /* For tablets and bigger screens */
+  @media (min-width: 600px) {
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 600px;
+    }
+  }
+
+  /* For desktops */
+  @media (min-width: 900px) {
+    .services-grid {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1000px;
+    }
+  }
