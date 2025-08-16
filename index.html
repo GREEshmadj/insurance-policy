@@ -145,12 +145,13 @@ const firebaseConfig = {
 </section>
 
 
-  <!-- Investment Calculator -->
-<section>
+ <section>
   <h2 class="section-title">LIC Investment Calculator</h2>
-  <h3 style="color: antiquewhite;">Get the best LIC plan suggestion based on your age, amount, and preferences.</h3>
+  <h3 style="color: antiquewhite;">
+    Get the best LIC plan suggestion based on your age, amount, and preferences.
+  </h3>
 
-  <form onsubmit="event.preventDefault(); calculate();">
+  <form id="calcForm">
     <input type="text" id="name" placeholder="Name" required><br>
     <input type="number" id="number" placeholder="Phone Number" required><br>
     <input type="email" id="email" placeholder="Email" required><br>
@@ -161,92 +162,102 @@ const firebaseConfig = {
     <button type="submit">Calculate</button>
   </form>
 
- <div id="result"; style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center; background-color: #400808;"></div>
+  <div id="result" style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center; background-color: #400808; color: white;"></div>
 
-
-<script>
-  function calculate() {
-    const age = parseInt(document.getElementById("age").value);
-    const monthly = parseFloat(document.getElementById("amount").value);
-    const years = parseInt(document.getElementById("years").value);
-    const rate = parseFloat(document.getElementById("rate").value) / 100;
-    const name = document.getElementById("name").value;
-    const number = document.getElementById("number").value;
-    const gmail = document.getElementById("email").value;
-
-    const result = document.getElementById("result");
-
-    if (
-      isNaN(age) || isNaN(monthly) || isNaN(years) || isNaN(rate) ||
-      !name || !number || !gmail
-    ) {
-      result.innerHTML = "❗ All fields are required and must be valid.";
-      return;
-    }
-
-    const months = years * 12;
-    const monthlyRate = rate / 12;
-    const maturity = monthly * ((Math.pow(1 + monthlyRate, months) - 1) * (1 + monthlyRate) / monthlyRate);
-    const invested = monthly * months;
-    const interest = maturity - invested;
-
-    let scheme = "";
-    let plans = [];
-
-    if (age < 35 && years >= 15) {
-      scheme = "ULIP (Market-Linked Investment)";
-      plans = ["LIC's SIIP", "LIC's New Endowment Plus"];
-    } else if (age <= 45 && years >= 15) {
-      scheme = "Endowment Plan (Bonus + Insurance)";
-      plans = ["New Endowment - 714", "Jeevan Anand - 715", "Single Premium Endowment - 717"];
-    } else if (years < 15 && age < 45) {
-      scheme = "Money Back Plan (Payout every few years)";
-      plans = ["20Y Money Back - 820", "Children Money Back - 832", "Jeevan Tarun - 834"];
-    } else if (age >= 50 && years >= 10) {
-      scheme = "Pension Plan (Monthly Income)";
-      plans = ["Jeevan Akshay", "Jeevan Shanti", "New Jeevan Nidhi"];
-    } else {
-      scheme = "Term Plan (Pure Protection)";
-      plans = ["Tech Term Plan", "Anmol Jeevan", "Amulya Jeevan"];
-    }
-
-    result.innerHTML = `
-      <strong>✅ Suggested Plan Type:</strong> ${scheme}<br><br>
-      <strong>📋 Matching LIC Plans:</strong><br>
-      <ul>${plans.map(p => `<li>${p}</li>`).join("")}</ul><br>
-      <strong>💰 Total Invested:</strong> ₹${invested.toLocaleString()}<br>
-      <strong>📈 Estimated Interest:</strong> ₹${interest.toLocaleString()}<br>
-      <strong>🔓 Maturity Amount:</strong> ₹${maturity.toLocaleString()}
-    `;
-
-    const data = {
-      name, number, gmail, age,
-      amount: monthly, years, rate: rate * 100,
-      scheme, plans, invested, interest, maturity
-    };
-
-    // ✅ Use the correct Apps Script Web App URL
+  <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbwwRKnlIv1FL9PG-AfBMCArQ1Wq9Pwp2k_2oWtVpoieNlTBdESjwWWFh_teVPV-fwrWsw/exec";
 
-    console.log("📤 Sending data:", data);
+    document.getElementById("calcForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    fetch(scriptURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.text())
-    .then(msg => {
-      console.log("✅ Data sent:", msg);
-      alert("Form submitted successfully!");
-    })
-    .catch(err => {
-      console.error("❌ Error submitting form:", err);
-      alert("Failed to submit form.");
+      const age = parseInt(document.getElementById("age").value);
+      const monthly = parseFloat(document.getElementById("amount").value);
+      const years = parseInt(document.getElementById("years").value);
+      const rate = parseFloat(document.getElementById("rate").value) / 100;
+      const name = document.getElementById("name").value.trim();
+      const number = document.getElementById("number").value.trim();
+      const gmail = document.getElementById("email").value.trim();
+
+      const result = document.getElementById("result");
+
+      if (
+        isNaN(age) || isNaN(monthly) || isNaN(years) || isNaN(rate) ||
+        !name || !number || !gmail
+      ) {
+        result.innerHTML = "❗ All fields are required and must be valid.";
+        return;
+      }
+
+      // 📊 Calculation
+      const months = years * 12;
+      const monthlyRate = rate / 12;
+      const maturity = monthly * ((Math.pow(1 + monthlyRate, months) - 1) * (1 + monthlyRate) / monthlyRate);
+      const invested = monthly * months;
+      const interest = maturity - invested;
+
+      let scheme = "";
+      let plans = [];
+
+      // ✅ Same if–else plan selection
+      if (age < 35 && years >= 15) {
+        scheme = "ULIP (Market-Linked Investment)";
+        plans = ["LIC's SIIP", "LIC's New Endowment Plus"];
+      } else if (age <= 45 && years >= 15) {
+        scheme = "Endowment Plan (Bonus + Insurance)";
+        plans = ["New Endowment - 714", "Jeevan Anand - 715", "Single Premium Endowment - 717"];
+      } else if (years < 15 && age < 45) {
+        scheme = "Money Back Plan (Payout every few years)";
+        plans = ["20Y Money Back - 820", "Children Money Back - 832", "Jeevan Tarun - 834"];
+      } else if (age >= 50 && years >= 10) {
+        scheme = "Pension Plan (Monthly Income)";
+        plans = ["Jeevan Akshay", "Jeevan Shanti", "New Jeevan Nidhi"];
+      } else {
+        scheme = "Term Plan (Pure Protection)";
+        plans = ["Tech Term Plan", "Anmol Jeevan", "Amulya Jeevan"];
+      }
+
+      // 🖥️ Show results
+      result.innerHTML = `
+        <strong>✅ Suggested Plan Type:</strong> ${scheme}<br><br>
+        <strong>📋 Matching LIC Plans:</strong><br>
+        <ul>${plans.map(p => `<li>${p}</li>`).join("")}</ul><br>
+        <strong>💰 Total Invested:</strong> ₹${invested.toLocaleString()}<br>
+        <strong>📈 Estimated Interest:</strong> ₹${interest.toLocaleString()}<br>
+        <strong>🔓 Maturity Amount:</strong> ₹${maturity.toLocaleString()}
+      `;
+
+      // 📤 Data to Google Sheet
+      const data = {
+        name,
+        number,
+        gmail,
+        age,
+        amount: monthly,
+        years,
+        rate: rate * 100, // back to %
+        scheme,
+        plans,
+        invested,
+        interest,
+        maturity
+      };
+
+      fetch(scriptURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.text())
+      .then(msg => {
+        console.log("✅ Data sent:", msg);
+        alert("Form submitted successfully!");
+      })
+      .catch(err => {
+        console.error("❌ Error submitting form:", err);
+        alert("Failed to submit form.");
+      });
     });
-  }
-</script>
-
+  </script>
 </section>
 
 <section id="life-insurance">
