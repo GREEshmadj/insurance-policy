@@ -165,7 +165,7 @@ const firebaseConfig = {
   <div id="result" style="border: 2px solid hsla(50, 88%, 48%, 0.849); padding: 20px; text-align: center; background-color: #400808; color: white;"></div>
 
   <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwwRKnlIv1FL9PG-AfBMCArQ1Wq9Pwp2k_2oWtVpoieNlTBdESjwWWFh_teVPV-fwrWsw/exec";
+    const scriptURL = "https://script.google.com/macros/s/AKfycbyLhTcq6PsBDq3ZJVFfmow9o15tSOwgLIXg2X_lG8I8wrVDUDtXrSO837iasXairGoi2w/exec";
 
     document.getElementById("calcForm").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -247,10 +247,10 @@ const firebaseConfig = {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       })
-      .then(res => res.text())
+      .then(res => res.json()) // 👈 parse JSON
       .then(msg => {
         console.log("✅ Data sent:", msg);
-        alert("Form submitted successfully!");
+        alert(msg.message);
       })
       .catch(err => {
         console.error("❌ Error submitting form:", err);
